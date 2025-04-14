@@ -8,11 +8,10 @@
     
     <!--installing tailwind / not for development purposes-->
     <script src="https://cdn.tailwindcss.com"></script>
-
     <link href="styles.css" rel="stylesheet">
 
     <!-- Name on tab -->
-    <title>Buttons Three</title>
+    <title>Burger Emporium</title>
     </head>
         <!--Stand in for background for now-->
         <body class="bg-[url('images/wallpaper.png')] bg-repeat bg-top">
@@ -27,7 +26,7 @@
                 </div>
                 <div class="links flex py-4 sm:flex-row text-2xl gap-x-8">
                   <div class="hover:underline ml-4 flex items-center">
-                    <a href="index.html"  class="text-white hover:text-yellow-200">*Home</a>
+                    <a href="index.html"  class="text-white hover:text-yellow-200">Home</a>
                   </div>
                   <div class="hover:underline ml-4 flex items-center">
                     <a href="menu.html"  class="text-white hover:text-yellow-200">Menu</a>
@@ -40,6 +39,8 @@
               </section>
     
               <!--BODY SECTION-->
+              <p class="mx-2 my-10 text-center text-4xl text-white bg-black bg-opacity-70"> MTT-BRAND Burger Emporium, serving you like a monarch! </p>
+
               <div class="container mx-auto mt-6 bg-black border-4 border-black border-solid">
                 <img src="images/welcome.png" alt="welcome" class="w-full h-full object-cover">
               </div>
@@ -47,13 +48,37 @@
               
               <div class="container mx-auto mb-10 w-50 p-5 bg-black border-4 border-white border-solid text-3xl text-white font-sans">
     
-                <h1 class="text-left text-yellow-200"> * Welcome to MTT-Brand Burger Emporium, home of the Glamburger. <br> * Sparkle up your day! <h1>
-                <h2 class="text-left">* Sparkle up your day! </h2>
+                <h1 class="text-left text-yellow-200"> * Welcome to MTT-Brand Burger Emporium, home of the Glamburger. <br> * Sparkle up your day! </h1>
+                </div>
+
+                <div class="container mx-auto mb-10 w-50 p-5 bg-black border-4 border-white border-solid text-3xl text-white font-sans">
+                    <h1 class="text-center text-yellow-200"> Our best sellers are: <br><br> </h1>
+
+                    <!-- flexbox -->
+                    <div class="flex justify-center gap-20 text-center mb-20">
+
+                        <a href="menu.html" class="max-w-sm bg-white p-4 cursor-pointer">
+                            <!-- Card 1 -->
+                            <div class="max-w-sm bg-white p-4 rounded-lg">
+                                <img src="images/starfait.png" alt="star feight" class="w-full h-48 object-contain">
+                                <h2 class="text-xl font-semibold mt-4">Starfait</h2>
+                                <p class="text-black mt-2">All them milkshakes makes you a star.</p>
+                            </div>
+                        </a>
+                            <!-- Card 2 -->
+                            <a href="menu.html" class="max-w-sm bg-white p-4 cursor-pointer">
+                            <div class="max-w-sm bg-white p-4 rounded-lg">
+                                <img src="images/glamburger.png" alt="burgor" class="w-full h-48 object-contain">
+                                <h2 class="text-xl font-semibold mt-4">Glamburger</h2>
+                                <p class="text-black mt-2">Feel the glam DARLING.</p>
+                            </div>
+                            </a>
+                        </div>
+                        </div>
 
               <!--FOOTER SECTION-->
-              </div>
-              <footer class="w-full bg-purple-800 text-white text-center py-4 mt-auto border-4 border-black border-solid font-serif tracking-wider>
-                <div class="flex justify-center text-left gap-4">
+              <footer class="w-full bg-purple-800 text-white text-center py-4 mt-auto border-4 border-black border-solid font-serif tracking-wider">
+                <div class="flex justify-center gap-4">
                     <p class="mt-2">&copy; 2025 MTT Burger Emporium</p>
                 </div>
     
