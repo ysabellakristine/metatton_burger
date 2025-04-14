@@ -12,7 +12,7 @@
     <link href="styles.css" rel="stylesheet">
 
     <!-- Name on tab -->
-    <title>Buttons Three</title>
+    <title>Menu</title>
 </head>
 
 <body class="bg-[url('images/wallpaper.png')] bg-repeat bg-top">
@@ -37,18 +37,25 @@
         </section>
 
         <!-- BODY SECTION -->
-        <div class="container mx-auto my-10 w-50 p-5 bg-black border-4 border-white border-solid text-3xl text-white font-sans">
+
+         <!-- Container for the box -->
+        <div class="container mx-auto my-10 w-50 p-5 font-sans bg-white bg-opacity-60">
+            <!-- Menu List -->
         <div class="flex justify-around p-6" id="menu">
             <div>
-                <h2 class="text-2xl mb-4">Menu</h2>
+                <!-- For renderMenu function -->
+                <h2 class="text-8xl mb-4 text-center">Menu</h2>
                 <div id="menu-list"></div>
             </div>
 
-            <div>
-                <h2 class="text-2xl mb-4">Purchase List</h2>
+            <div class ="p-5 font-sans bg-black border-white border-4 text-white">
+                <h2 class="container text-5xl mb-4 ">Purchase List</h2> <hr>
                 <ul id="cart-items"></ul>
-                <p>Total: $<span id="total">0.00</span></p>
-                <button onclick="checkout()" class="bg-purple-600 text-white p-2 rounded mt-4">Checkout</button>
+                <hr>
+                <p class = "text-center">Total: $<span id="total">0.00</span></p>
+                <label for="payment" class="block mt-4">Enter Payment:</label>
+                <input id="payment" type="number" min="0" step="0.01" class="w-full text-black text-center rounded mt-1 p-1">
+                <button onclick="processPayment()" class="bg-purple-600 text-white p-2 rounded mt-2 w-full hover:bg-yellow-500">Pay</button>
             </div>
         </div>
 
@@ -65,76 +72,145 @@
     </div>
 
     <script>
+
+        // menu array
         const menu = [
-            { name: "Starfait", price: 1.00, img: "images/starfait.png" },
-            { name: "Glamburger", price: 0.50, img: "https://i.imgur.com/yFsVb4h.png" },
-            { name: "Legendary Hero", price: 0.80, img: "https://i.imgur.com/Cb0FQHT.png" },
-            { name: "Steak", price: 1.50, img: "https://i.imgur.com/hEJW4Vn.png" },
-            { name: "Soda", price: 2.00, img: "https://i.imgur.com/1z8WZYO.png" },
-            { name: "Popcorn", price: 2.00, img: "https://i.imgur.com/1z8WZYO.png" },
-            { name: "Pizza", price: 2.00, img: "https://i.imgur.com/1z8WZYO.png" },
-            { name: "Hotdog", price: 2.00, img: "https://i.imgur.com/1z8WZYO.png" },
-            { name: "Cupcake", price: 2.00, img: "https://i.imgur.com/1z8WZYO.png" },
-            { name: "Donut", price: 2.00, img: "https://i.imgur.com/1z8WZYO.png" }
+            { name: "Starfait", price: 60, img: "images/starfait.png", des: "Very popular food." },
+            { name: "Glamburger", price: 120, img: "images/glamburger.png", des: "Very popular food #2" },
+            { name: "Legendary Hero", price: 300, img: "images/legendary_hero.png" , des: "Hero Sandwich. ATTACK UP in battle.."},
+            { name: "Steak", price: 500, img: "images/steak.png" , des: "Steak in the Shape of Mettaton's Face."},
+            { name: "Soda", price: 50, img: "images/soda.png", des: "Fizzy pop." },
+            { name: "Popcorn", price: 100, img: "images/popcorn.png", des: "Pops in your mouth." },
+            { name: "Pizza", price: 140, img: "images/pizza.png", des: "Mmm Pizza." },
+            { name: "Hotdog", price: 160, img: "images/hotdog.png", des: "Not a real dog." },
+            { name: "Cupcake", price: 20, img: "images/cupcake.png", des: "Sweet."},
+            { name: "Donut", price: 50, img: "images/donut.png" , des: "Do not search the donut fic on AO3."}
         ];
-    
+        
+        // cart list which is empty
         let cart = [];
-    
+        
+        // function to show menu
         function rendermenu() {
+            // reminder that const is how js declares a variable
             const list = document.getElementById("menu-list");
+            // innerHTML to change the html inside an element but NOT RECOMMENDED FOR ACTUAL USE
+            // can be vulnerable to XSS attacks
             list.innerHTML = ""; // Clear existing content
         
-            const itemsPerRow = 3;
-            for (let i = 0; i < menu.length; i += itemsPerRow) {
+            // declares menu items to be 4 per row
+            const itemsPerRow = 4;
+            // for loop where i is the current item 
+            for (let i = 0; i < menu.length; i += itemsPerRow) {  
+                // .createElement creates div with each menu item
                 const row = document.createElement("div");
-                row.className = "flex justify-center mb-4"; // Row container
+                row.className = "flex justify-center mb-4"; // Row container with tailwind
         
+                // within first for loop, we have another for loop for EACH menu item
+                // had to use j because it was making things weird for the rows
                 for (let j = i; j < i + itemsPerRow && j < menu.length; j++) {
                     const menuItem = menu[j];
                     const item = document.createElement("div");
-                    item.className = "p-4 flex flex-col items-center border border-gray-300 rounded-lg shadow-md w-48 mx-2 text-center";
+                    item.className = "p-4 flex flex-col items-center bg-black rounded-lg shadow-md w-48 mx-2 text-center text-white";
         
+                    // sir umiyak ako dito
                     item.innerHTML = `
                         <img src="${menuItem.img}" alt="${menuItem.name}" class="w-24 h-24 object-contain mb-2 rounded">
                         <span class="text-lg font-semibold mb-1">${menuItem.name}</span>
-                        <span class="text-sm text-gray-600 mb-2">$${menuItem.price.toFixed(2)}</span>
-                        <button onclick="addToCart(${j})" class="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700">Add</button>
+                        <span class="text-sm mb-2">$${menuItem.price.toFixed(2)}</span>
+                        <span class="text-s italic mb-2">${menuItem.des}</span>
+                        <input id="qty-${j}" type="number" min="1" value="1" class="w-16 text-black mb-2 text-center rounded">
+                        <button onclick="addToCart(${j})" class="bg-purple-600 text-white px-3 py-1 rounded hover:bg-yellow-500">Add</button>
                     `;
-        
+                    
+                    //appendChild adds the item to the menu list
                     row.appendChild(item);
                 }
-        
+                //appendChild adds the menu list items to the rows
                 list.appendChild(row);
             }
         }
         
-    
+        // adds item to cart
         function addToCart(index) {
-            cart.push(menu[index]);
+            const qtyInput = document.getElementById(`qty-${index}`);
+            const quantity = parseInt(qtyInput.value) || 1;
+        
+            // Add to cart with quantity
+            const existingItem = cart.find(item => item.name === menu[index].name);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ ...menu[index], quantity });
+            }
+        
             updateCart();
         }
+        
     
+        // update cart list to show
         function updateCart() {
             const cartList = document.getElementById("cart-items");
             const totalEl = document.getElementById("total");
             cartList.innerHTML = "";
-    
+        
             let total = 0;
+        
+            // Optional: add a header row
+            const header = document.createElement("li");
+            header.className = "grid grid-cols-3 gap-2 font-bold border-b pb-1 mb-2";
+            header.innerHTML = `
+                <span class="text-left">Item</span>
+                <span class="text-center">Qty</span>
+                <span class="text-right">Price</span>
+            `;
+            cartList.appendChild(header);
+        
             cart.forEach((item) => {
+                const itemTotal = item.price * item.quantity;
                 const cartItem = document.createElement("li");
-                cartItem.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+                cartItem.className = "grid grid-cols-3 gap-2 py-1";
+        
+                cartItem.innerHTML = `
+                    <span class="text-left">${item.name}</span>
+                    <span class="text-center">${item.quantity}</span>
+                    <span class="text-right">$${itemTotal.toFixed(2)}</span>
+                `;
+        
                 cartList.appendChild(cartItem);
-                total += item.price;
+                total += itemTotal;
             });
-    
+        
             totalEl.textContent = total.toFixed(2);
         }
-    
-        function checkout() {
-            alert("Proceeding to checkout...");
-            cart = [];
-            updateCart();
+        
+        function processPayment() {
+            const paymentInput = document.getElementById("payment");
+            const total = parseFloat(document.getElementById("total").textContent);
+            const paymentAmount = parseFloat(paymentInput.value);
+            const change = paymentAmount - total;
+            const owed = total - paymentAmount;
+
+            if (isNaN(paymentAmount)) {
+                alert("Bro. Please enter an amount.");
+                return;
+            }
+        
+            if (paymentAmount < total) {
+                alert(`You need more money bro. \n\nTotal: $${total.toFixed(2)}\nYou Paid: $${paymentAmount.toFixed(2)}\nStill Owed: $${(owed).toFixed(2)}`);
+            } else if (total === 0){
+                alert(`Here's your money back, bestie. \n You didn't even buy anything. \nMoney back: $${paymentAmount.toFixed(2)}`);
+                cart = [];
+                updateCart();
+                paymentInput.value = "";
+            } else {
+                alert(`Thanks for your order!\n\nTotal: $${total.toFixed(2)}\nYou Paid: $${paymentAmount.toFixed(2)}\nYour Change: $${change.toFixed(2)}\n`);
+                cart = [];
+                updateCart();
+                paymentInput.value = "";
+            }
         }
+        
     
         // Render the menu when the page loads
         window.onload = rendermenu;
